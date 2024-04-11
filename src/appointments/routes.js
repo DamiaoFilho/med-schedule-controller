@@ -14,6 +14,20 @@ router.get("/appointments", function (req, res) {
   });
 });
 
+router.get("/patiant/:id/appointments", function (req, res) {
+  const patiant_id = req.params.id;
+
+  appointments.service.List(null, function (err, data) {
+  data.results = data.results.filter(item => (item.patient_id == patiant_id))
+  if (err) {
+    console.log("Internal error", error);
+  } else {
+    res.json(data.results);
+  }
+});
+});
+
+
 router.post("/appointments/create", function (req, res) {
   appointments.service.Create(req.body, function (err, response) {
     if (err) {
